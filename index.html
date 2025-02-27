@@ -155,6 +155,26 @@
             font-size: 0.9em;
             color: #777;
         }
+
+        /* 音乐按钮样式 */
+        .music-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 16px;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+            transition: transform 0.2s;
+        }
+
+        .music-button:hover {
+            transform: translateY(-2px);
+        }
     </style>
 </head>
 <body>
@@ -199,6 +219,35 @@
             <p>🎉 祝你生日快乐! Happy Birthday to You! 🎉</p>
         </div>
     </div>
+
+    <!-- 音乐播放控件 -->
+    <button class="music-button" onclick="toggleMusic()">播放/暂停音乐</button>
+
+    <!-- 音乐文件 -->
+    <audio id="birthdayMusic" src="spider.mp3" preload="auto"></audio>
+
+    <script>
+        // 音乐控制功能
+        let isPlaying = false;
+        const audio = document.getElementById('birthdayMusic');
+
+        function toggleMusic() {
+            if (isPlaying) {
+                audio.pause();
+            } else {
+                audio.play();
+            }
+            isPlaying = !isPlaying;
+        }
+
+        // 自动播放音乐
+        audio.autoplay = true;
+        audio.volume = 0.5; // 设置音量
+
+        // 设置音乐循环播放
+        audio.addEventListener('ended', function() {
+            this.play();
+        });
+    </script>
 </body>
 </html>
-
