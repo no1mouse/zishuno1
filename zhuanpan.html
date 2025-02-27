@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,14 @@
     <style>
         body {
             text-align: center;
+            /* 添加背景渐变样式 */
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
         }
 
         button {
@@ -121,6 +130,7 @@
             font-size: 16px;
             box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
             transition: transform 0.2s;
+            text-decoration: none;
         }
 
         .back-button:hover {
@@ -128,9 +138,11 @@
         }
     </style>
 </head>
+
 <body>
     <!-- 返回按钮 -->
-    <a href="cake.html" class="back-button">返回</a>
+    
+    <a href="cake.html" class="back-button" class=>返回</a>
 
     <div class="box">
         <div class="main" ontransitionend="end()">
@@ -151,10 +163,10 @@
 
     <script>
         var rotate = 0;
-        var random = function(num) {
+        var random = function (num) {
             return Math.random() * num;
         };
-        var randomColor = function() {
+        var randomColor = function () {
             return 'rgb(' + random(250) + ', ' + random(250) + ', ' + random(250) + ')';
         };
         // 将奖项数量改为6
@@ -212,4 +224,5 @@
         }
     </script>
 </body>
+
 </html>
