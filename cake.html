@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生日蛋糕</title>
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+            font-family: 'Arial Rounded MT Bold', Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        .cake-container {
+            position: relative;
+            transform: scale(1.2);
+        }
+
+        /* 蛋糕主体 */
+        .cake {
+            position: relative;
+            width: 280px;
+            height: 220px;
+        }
+
+        /* 蛋糕层 */
+        .layer {
+            position: absolute;
+            width: 100%;
+            background: linear-gradient(180deg, #fff5f5 0%, #ffd3d3 100%);
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .layer-1 {
+            height: 120px;
+            bottom: 0;
+            z-index: 3;
+        }
+
+        .layer-2 {
+            height: 100px;
+            width: 220px;
+            bottom: 110px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+        }
+
+        .layer-3 {
+            height: 80px;
+            width: 180px;
+            bottom: 190px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+
+        /* 糖霜装饰 */
+        .frosting {
+            position: absolute;
+            background: white;
+            border-radius: 20px;
+        }
+
+        .top-frosting {
+            width: 160px;
+            height: 25px;
+            bottom: 170px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 蜡烛：将蜡烛定位到蛋糕最上层 */
+        .candles {
+            position: absolute;
+            bottom: 260px;
+            width: 210px;
+            display: flex;
+            justify-content: space-around;
+            padding: 0 30px;
+            z-index: 4;
+        }
+
+        .candle {
+            width: 12px;
+            height: 50px;
+            background: linear-gradient(45deg, #ff7676, #ff9f9f);
+            border-radius: 5px 5px 2px 2px;
+            position: relative;
+            animation: float 2s ease-in-out infinite;
+        }
+
+        .flame {
+            position: absolute;
+            top: -18px;
+            left: 50%;
+            width: 14px;
+            height: 24px;
+            background: linear-gradient(180deg, #fff3b0 0%, #ffaa00 100%);
+            border-radius: 50% 50% 35% 35%;
+            transform: translateX(-50%);
+            filter: blur(1px);
+            animation: flicker 0.1s infinite alternate, glow 2s infinite;
+            transition: opacity 0.3s;
+        }
+
+        /* 装饰元素 */
+        .sprinkles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .sprinkle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            animation: sprinkle-fall 5s linear infinite;
+        }
+
+        /* 巧克力豆装饰 */
+        .chocolate-chip {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #ff9a9e;
+            border-radius: 50%;
+        }
+
+        /* 动画 */
+        @keyframes flicker {
+            0% {
+                transform: translateX(-50%) rotate(3deg);
+            }
+
+            100% {
+                transform: translateX(-50%) rotate(-3deg);
+            }
+        }
+
+        @keyframes glow {
+            0%,
+            100% {
+                box-shadow: 0 0 15px #ffd700;
+            }
+
+            50% {
+                box-shadow: 0 0 25px #ffd700;
+            }
+        }
+
+        @keyframes float {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        @keyframes sprinkle-fall {
+            0% {
+                transform: translateY(-100vh);
+            }
+
+            100% {
+                transform: translateY(100vh);
+            }
+        }
+
+        /* 返回按钮 */
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 12px 24px;
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 16px;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+            transition: transform 0.2s;
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+        }
+
+        /* 点燃 / 熄灭按钮 */
+        .toggle-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 24px;
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 16px;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+            transition: transform 0.2s;
+        }
+
+        .toggle-button:hover {
+            transform: translateY(-2px);
+        }
+
+        /* 领取好运按钮 */
+        .luck-button {
+            position: fixed;
+            bottom: 20px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .luck-button a {
+            display: inline-block;
+            padding: 12px 24px;
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            color: white;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 16px;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+            transition: transform 0.2s;
+        }
+
+        .luck-button a:hover {
+            transform: translateY(-2px);
+        }
+
+        /* 弹窗样式 */
+        .modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            display: none;
+        }
+
+        .modal-content {
+            color: #ff6b6b;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .modal-close {
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            outline: none;
+        }
+
+        .modal-close:hover {
+            background: linear-gradient(45deg, #ff8e8e, #ff6b6b);
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-button">返回 / Back</a>
+    <!-- 新增一个按钮 -->
+    <button class="toggle-button">点燃 / 熄灭</button>
+
+    <div class="cake-container">
+        <div class="cake">
+            <!-- 三层蛋糕 -->
+            <div class="layer layer-1">
+                <!-- 第一层蛋糕的巧克力豆装饰 -->
+                <div class="chocolate-chip" style="top: 20px; left: 20px;"></div>
+                <div class="chocolate-chip" style="top: 20px; left: 60px;"></div>
+                <div class="chocolate-chip" style="top: 20px; left: 100px;"></div>
+                <div class="chocolate-chip" style="top: 20px; left: 140px;"></div>
+                <div class="chocolate-chip" style="top: 20px; left: 180px;"></div>
+                <div class="chocolate-chip" style="top: 20px; left: 220px;"></div>
+                <div class="chocolate-chip" style="top: 20px; left: 260px;"></div>
+                
+            </div>
+            <div class="layer layer-2">
+                <!-- 第二层蛋糕的巧克力豆装饰 -->
+                <div class="chocolate-chip" style="top: 20px; left: 20px;"></div>
+                <div class="chocolate-chip" style="top: 20px; left: 60px;"></div>
+                <div class="chocolate-chip" style="top: 20px; left: 100px;"></div>
+                <div class="chocolate-chip" style="top: 20px; left: 140px;"></div>
+                <div class="chocolate-chip" style="top: 20px; left: 180px;"></div>
+                
+               
+            </div>
+            <div class="layer layer-3">
+                <!-- 第三层蛋糕的巧克力豆装饰 -->
+                <div class="chocolate-chip" style="top: 20px; left: 20px;"></div>
+                <div class="chocolate-chip" style="top: 20px; left: 60px;"></div>
+                <div class="chocolate-chip" style="top: 20px; left: 100px;"></div>
+                <div class="chocolate-chip" style="top: 20px; left: 140px;"></div>
+                
+                
+            </div>
+
+            <!-- 糖霜装饰 -->
+            <div class="frosting top-frosting"></div>
+
+            <!-- 蜡烛 -->
+            <div class="candles">
+                <div class="candle"><div class="flame"></div></div>
+                <div class="candle" style="background:linear-gradient(45deg,#76daff,#9fe4ff)"><div class="flame"></div></div>
+                <div class="candle" style="background:linear-gradient(45deg,#b076ff,#d19fff)"><div class="flame"></div></div>
+            </div>
+
+            <!-- 糖粒装饰 -->
+            <div class="sprinkles"></div>
+        </div>
+    </div>
+
+    <!-- 弹窗 -->
+    <div class="modal">
+        <div class="modal-content">
+            恭喜你！梦想成真
+        </div>
+        <button class="modal-close">关闭</button>
+    </div>
+
+    <!-- 新增领取好运按钮 -->
+    <div class="luck-button">
+        <a href="zhuanpan.html">领取好运</a>
+    </div>
+
+    <script>
+        // 添加随机糖粒
+        const sprinkles = document.querySelector('.sprinkles');
+        const colors = ['#ff6b6b', '#4ecdc4', '#ffe66d', '#ff9f43'];
+
+        for (let i = 0; i < 50; i++) {
+            const sprinkle = document.createElement('div');
+            sprinkle.className = 'sprinkle';
+            sprinkle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            sprinkle.style.left = Math.random() * 100 + '%';
+            sprinkle.style.animationDelay = Math.random() * 5 + 's';
+            sprinkle.style.width = Math.random() * 6 + 4 + 'px';
+            sprinkle.style.height = sprinkle.style.width;
+            sprinkles.appendChild(sprinkle);
+        }
+
+        // 点燃/熄灭功能
+        const flameElements = document.querySelectorAll('.flame');
+        let isFlameOn = Math.random() < 0.5; // 初始随机状态
+        let isModalShown = false; // 弹窗状态
+
+        // 设置初始状态
+        flameElements.forEach(flame => {
+            flame.style.opacity = isFlameOn ? 1 : 0;
+            flame.style.animationPlayState = isFlameOn ? 'running' : 'paused';
+        });
+
+        // 切换火焰状态
+        function toggleFlame() {
+            isFlameOn = !isFlameOn;
+            flameElements.forEach(flame => {
+                flame.style.opacity = isFlameOn ? 1 : 0;
+                flame.style.animationPlayState = isFlameOn ? 'running' : 'paused';
+            });
+            // 更新按钮文本
+            document.querySelector('.toggle-button').textContent = isFlameOn ? '熄灭蜡烛' : '点燃蜡烛';
+
+            // 显示/隐藏弹窗
+            if (!isFlameOn && !isModalShown) {
+                showModal();
+            }
+        }
+
+        // 显示弹窗
+        function showModal() {
+            const modal = document.querySelector('.modal');
+            modal.style.display = 'block';
+            isModalShown = true;
+
+            // 添加关闭事件
+            document.querySelector('.modal-close').addEventListener('click', () => {
+                closeModel();
+            });
+        }
+
+        // 隐藏弹窗
+        function closeModel() {
+            const modal = document.querySelector('.modal');
+            modal.style.display = 'none';
+            isModalShown = false;
+        }
+
+        // 绑定按钮事件
+        document.querySelector('.toggle-button').addEventListener('click', toggleFlame);
+    </script>
+</body>
+</html>
