@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>抽奖转盘</title>
+    <style>
+        body {
+            text-align: center;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        .box {
+            width: 500px;
+            height: 500px;
+            margin: 10px auto;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .main {
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+            border: 5px solid black;
+            border-radius: 50%;
+            background: rgba(128, 128, 128, 0.49);
+            overflow: hidden;
+            position: relative;
+            transition: all 3s cubic-bezier(0.46, 0.03, 0.52, 0.96);
+        }
+
+        .pointer {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9;
+        }
+
+        .pointer-bar {
+            width: 60px;
+            height: 25px;
+            background: white;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(0, -50%);
+        }
+
+        .pointer-cursor {
+            width: 25px;
+            height: 25px;
+            position: absolute;
+            left: 85px;
+            top: 50%;
+            transform: translate(-50%, -50%) rotateZ(45deg);
+            background: white;
+        }
+
+        .part {
+            height: 100%;
+            width: 50%;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform-origin: left center;
+            z-index: 1;
+        }
+
+        .bg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .title {
+            transform: translate(0, -50%);
+            transform-origin: left top;
+            width: 100%;
+            height: auto;
+            text-align: center;
+            font-size: 30px;
+            color: white;
+            position: absolute;
+            top: 50%;
+            left: 0;
+            padding-left: 85px;
+            box-sizing: border-box;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .winner {
+            font-size: 30px;
+            color: red;
+            font-weight: bold;
+        }
+
+        /* 返回按钮样式 */
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 12px 24px;
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 16px;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+            transition: transform 0.2s;
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <!-- 返回按钮 -->
+    <a href="cake.html" class="back-button">返回</a>
+
+    <div class="box">
+        <div class="main" ontransitionend="end()">
+            <div id="temp" class="part" style="display: none;">
+                <div class="bg"></div>
+                <div class="title"></div>
+            </div>
+        </div>
+
+        <div class="pointer">
+            <div class="pointer-bar"></div>
+            <div class="pointer-cursor"></div>
+        </div>
+    </div>
+
+    <button onclick="start()">开始</button>
+    <div class="winner"></div>
+
+    <script>
+        var rotate = 0;
+        var random = function(num) {
+            return Math.random() * num;
+        };
+        var randomColor = function() {
+            return 'rgb(' + random(250) + ', ' + random(250) + ', ' + random(250) + ')';
+        };
+        // 将奖项数量改为6
+        var list = [
+            { title: '法考必过', color: randomColor() },
+            { title: '一定暴富', color: randomColor() },
+            { title: '心想事成', color: randomColor() },
+            { title: '万事顺意', color: randomColor() },
+            { title: '永远18', color: randomColor() },
+            { title: '天天开心', color: randomColor() }
+        ];
+
+        var perAngle = 360 / list.length;
+        var main = document.querySelector('.main');
+        var temp = document.querySelector('#temp');
+
+        for (var i in list) {
+            var item = list[i];
+
+            var newNode = temp.cloneNode(true);
+            newNode.style.display = 'block';
+            newNode.style.transform = 'rotateZ(' + (perAngle * i + perAngle / 2) + 'deg)';
+            newNode.querySelector('.bg').style.background = item.color;
+
+            if (list.length >= 2) {
+                var p = perAngle / 2;
+                var d = Math.tan(p * Math.PI / 180) * 100;
+                var x = (100 - d) / 2;
+                newNode.style.clipPath = `polygon(0% 50%, 100% ${x}%, 100% ${100 - x}%)`;
+            }
+
+            newNode.querySelector('.title').innerHTML = item.title;
+
+            main.appendChild(newNode);
+        }
+
+        var isRunning = false;
+
+        function start() {
+            if (isRunning) {
+                console.warn('抽奖正在进行，请稍后再试！');
+                return;
+            }
+            isRunning = true;
+            document.querySelector('.winner').innerHTML = '';
+            rotate += (random(360) + 360 * 3); // 旋转更多圈
+            main.style.transform = 'rotateZ(-' + rotate + 'deg)';
+        }
+
+        function end() {
+            isRunning = false;
+            var index = Math.floor(rotate / perAngle) % list.length;
+            var winner = list[index];
+            document.querySelector('.winner').innerHTML = '恭喜你，抽中：' + winner.title;
+        }
+    </script>
+</body>
+</html>
