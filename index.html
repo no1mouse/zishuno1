@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday!</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f0ff;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            margin-top: 50px;
+        }
+        h1 {
+            font-size: 3em;
+            color: #ff6b6b;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            margin-bottom: 10px;
+        }
+        .cake {
+            font-size: 100px;
+            margin: 30px 0;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .cake:hover {
+            transform: scale(1.1);
+        }
+        .message {
+            font-size: 1.5em;
+            line-height: 1.6;
+            margin: 30px 0;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .balloons {
+            display: flex;
+            justify-content: center;
+            margin: 40px 0;
+        }
+        .balloon {
+            font-size: 50px;
+            margin: 0 15px;
+            animation: float 6s ease-in-out infinite;
+        }
+        .balloon:nth-child(2) {
+            animation-delay: 1s;
+        }
+        .balloon:nth-child(3) {
+            animation-delay: 2s;
+        }
+        .balloon:nth-child(4) {
+            animation-delay: 3s;
+        }
+        .balloon:nth-child(5) {
+            animation-delay: 4s;
+        }
+        @keyframes float {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+        .confetti {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: -1;
+        }
+        .confetti-piece {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #ffd700;
+            top: -10px;
+            opacity: 0;
+        }
+        .confetti-piece:nth-child(1) {
+            left: 10%;
+            animation: confetti 5s ease-in-out infinite;
+            background-color: #ff6b6b;
+        }
+        .confetti-piece:nth-child(2) {
+            left: 20%;
+            animation: confetti 5s ease-in-out 0.5s infinite;
+            background-color: #4ecdc4;
+        }
+        .confetti-piece:nth-child(3) {
+            left: 30%;
+            animation: confetti 5s ease-in-out 1s infinite;
+            background-color: #ff9f1c;
+        }
+        .confetti-piece:nth-child(4) {
+            left: 40%;
+            animation: confetti 5s ease-in-out 1.5s infinite;
+            background-color: #f72585;
+        }
+        .confetti-piece:nth-child(5) {
+            left: 50%;
+            animation: confetti 5s ease-in-out 2s infinite;
+            background-color: #7209b7;
+        }
+        .confetti-piece:nth-child(6) {
+            left: 60%;
+            animation: confetti 5s ease-in-out 2.5s infinite;
+            background-color: #3a86ff;
+        }
+        .confetti-piece:nth-child(7) {
+            left: 70%;
+            animation: confetti 5s ease-in-out 3s infinite;
+            background-color: #8ac926;
+        }
+        .confetti-piece:nth-child(8) {
+            left: 80%;
+            animation: confetti 5s ease-in-out 3.5s infinite;
+            background-color: #ffbe0b;
+        }
+        .confetti-piece:nth-child(9) {
+            left: 90%;
+            animation: confetti 5s ease-in-out 4s infinite;
+            background-color: #fb5607;
+        }
+        @keyframes confetti {
+            0% {
+                opacity: 1;
+                transform: translateY(0) rotate(0deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+        .footer {
+            margin-top: 50px;
+            font-size: 0.9em;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <div class="confetti">
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>生日快乐!</h1>
+            <h2>Happy Birthday!</h2>
+        </div>
+
+        <a href="cake.html" style="text-decoration: none;">
+            <div class="cake">
+                🎂
+            </div>
+        </a>
+
+        <div class="balloons">
+            <div class="balloon">🎈</div>
+            <div class="balloon">🎈</div>
+            <div class="balloon">🎈</div>
+            <div class="balloon">🎈</div>
+            <div class="balloon">🎈</div>
+        </div>
+
+        <div class="message">
+            <p>在这特别的日子里，</p>
+            <p>祝你心想事成，天天开心！</p>
+        </div>
+
+        <div class="footer">
+            <p>🎉 祝你生日快乐! Happy Birthday to You! 🎉</p>
+        </div>
+    </div>
+</body>
+</html>
+
